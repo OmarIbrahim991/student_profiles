@@ -1,4 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import Student from './components/Student'
+
+
+const CardsList = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: auto;
+	padding: 1em;
+	max-width: 800px;
+	color: #570475;
+	background-color: #eef;
+`
 
 const App = () => {
 	const [students, updateStudents] = useState([])
@@ -7,31 +21,24 @@ const App = () => {
 	useEffect(() => {
 		fetch("https://api.hatchways.io/assessment/students")
 		.then(resp => resp.json())
-		.then(({ students }) => {
-			updateStudents(students)
+		.then((jsonResp) => {
+			updateStudents(
+				jsonResp.students.map((student) => {
+					const { grades } = student
+					return {
+						...student,
+						average: grades.reduce( (a,b) => parseInt(a)+parseInt(b) , 0 ) / grades.length,
+					}
+				})
+			)
 			setLoading(false)
 		})
 	}, [])
 
 	return (
-		<div>
-			{
-				loading ?
-				<h1>Loading...</h1> :
-				students.map(({ firstName, lastName, email, company, skill, grades, pic }) => (
-					<div key={email} className="student-info">
-						<img src={pic} alt={`${firstName} ${lastName}'s profile`} />
-						<h2>{firstName + " " + lastName}</h2>
-						<p>{`Email: ${email}`}</p>
-						<p>{`Company: ${company}`}</p>
-						<p>{`Skill: ${skill}`}</p>
-						<p>
-							{`Average: ${(grades.reduce((a,b) => parseInt(a) + parseInt(b), 0) / grades.length).toFixed(2)}`}
-						</p>
-					</div>
-				))
-			}
-		</div>
+		<CardsList>
+			{loading ? <h1>Loading...</h1> : students.map( student => <Student key={student.email} {...student} /> )}
+		</CardsList>
 	)
 }
 
