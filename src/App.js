@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import Student from './components/Student'
+import ListContents from './components/ListContents'
+import SearchInput from './components/SearchInput'
 
 
 const CardsList = styled.div`
@@ -17,6 +18,11 @@ const CardsList = styled.div`
 const App = () => {
 	const [students, updateStudents] = useState([])
 	const [loading, setLoading] = useState(true)
+	const [search, setSearch] = useState("")
+	const filteredStudents = search.length === 0 ? students :
+		students.filter(({ firstName, lastName }) => (
+			(firstName+ " " +lastName).toLowerCase().includes(search))
+		)
 
 	useEffect(() => {
 		fetch("https://api.hatchways.io/assessment/students")
@@ -36,9 +42,12 @@ const App = () => {
 	}, [])
 
 	return (
-		<CardsList>
-			{loading ? <h1>Loading...</h1> : students.map( student => <Student key={student.email} {...student} /> )}
-		</CardsList>
+		<>
+			<SearchInput search={search} setSearch={setSearch} />
+			<CardsList>
+				<ListContents loading={loading} filteredStudents={filteredStudents} />
+			</CardsList>
+		</>
 	)
 }
 
