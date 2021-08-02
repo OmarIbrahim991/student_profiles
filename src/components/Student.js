@@ -1,10 +1,10 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 
 
 const Card = styled.div`
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
     margin: 1em;
     padding: 1em;
     border: 3px solid #570475;
@@ -20,7 +20,7 @@ const CardImg = styled.img`
     border: 1px solid #570475;
     border-radius: 50%;
     margin-left: 1em;
-    height: 7rem;
+    height: 6rem;
 `
 
 const CardDetails = styled.div`
@@ -31,8 +31,24 @@ const CardDetails = styled.div`
     margin-right: 1em;
 `
 
+const Row = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+`
+
 const CardTitle = styled.h2`
-    margin: 0.25em;
+    margin: 0.25em 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const ToggleIndicator = styled.h1`
+    margin: 0.25em 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const Text = styled.p`
@@ -41,17 +57,35 @@ const Text = styled.p`
 `
 
 const Student = ({ firstName, lastName, email, company, skill, average, pic, grades }) => {
-    return (
-        <Card className="student-info">
-            <CardImg src={pic} alt={`${firstName} ${lastName}'s profile`} />
-            <CardDetails>
-                <CardTitle>{`${firstName} ${lastName}`}</CardTitle>
-                <Text>{`Email: ${email}`}</Text>
-                <Text>{`Company: ${company}`}</Text>
-                <Text>{`Skill: ${skill}`}</Text>
-                <Text>{`Average: ${average.toFixed(2)}`}</Text>
-            </CardDetails>
+    const [extended, toggleExtended] = useState(false)
 
+    return (
+        <Card onClick={() => toggleExtended(state => !state)}>
+            <Row>
+                <CardImg src={pic} alt={`${firstName} ${lastName}'s profile`} />
+                <CardDetails>
+                    <Row>
+                        <CardTitle>{`${firstName} ${lastName}`}</CardTitle>
+                        <ToggleIndicator>{extended ? "-" : "+"}</ToggleIndicator>
+                    </Row>
+                    <Text>{`Email: ${email}`}</Text>
+                    <Text>{`Company: ${company}`}</Text>
+                    <Text>{`Skill: ${skill}`}</Text>
+                    <Text>{`Average: ${average.toFixed(2)}`}</Text>
+                </CardDetails>
+            </Row>
+            {
+                extended &&
+                <ul style={{ alignSelf: "stretch", listStyleType: "none" }}>
+                    {
+                        grades.map((grade, i) => (
+                            <li key={i}>
+                                {`Test ${i}: ${grade}%`}
+                            </li>
+                        ))
+                    }
+                </ul>
+            }
         </Card>
     )
 }

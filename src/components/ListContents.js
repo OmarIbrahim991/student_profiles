@@ -7,7 +7,7 @@ const ListContents = ({ loading, filteredStudents }) => {
     }
 
     if (filteredStudents.length === 0) {
-        return <h1>There are no students to display!</h1>
+        return <h1>There are no results to display!</h1>
     }
 
     return (
