@@ -56,12 +56,31 @@ const Text = styled.p`
     margin: 0.1em;
 `
 
-const Student = ({ firstName, lastName, email, company, skill, average, pic, grades }) => {
+const TagInput = styled.input`
+`
+
+const Student = ({ firstName, lastName, email, company, skill, average, pic, grades, tags, updateStudents }) => {
     const [extended, toggleExtended] = useState(false)
+    const [tagInput, setTagInput] = useState("")
+
+    const addTag = (e) => {
+        e.preventDefault()
+        const newTags = [...tags, tagInput]
+        setTagInput("")
+        if (tags.includes(tagInput)) return
+
+        updateStudents((students) => {
+            return students.map((student) => (
+                student.email !== email ?
+                student :
+                { firstName, lastName, email, company, skill, average, pic, grades, tags: newTags }
+            ))
+        })
+    }
 
     return (
-        <Card onClick={() => toggleExtended(state => !state)}>
-            <Row>
+        <Card>
+            <Row onClick={() => toggleExtended(state => !state)}>
                 <CardImg src={pic} alt={`${firstName} ${lastName}'s profile`} />
                 <CardDetails>
                     <Row>
@@ -74,18 +93,36 @@ const Student = ({ firstName, lastName, email, company, skill, average, pic, gra
                     <Text>{`Average: ${average.toFixed(2)}`}</Text>
                 </CardDetails>
             </Row>
+
             {
                 extended &&
-                <ul style={{ alignSelf: "stretch", listStyleType: "none" }}>
+                <ul style={{ listStyleType: "none", width: "30%", margin: "1em auto 0.25em", padding: "0 1em" }}>
+                    <h3>Grades</h3>
                     {
                         grades.map((grade, i) => (
                             <li key={i}>
-                                {`Test ${i}: ${grade}%`}
+                                <Row>
+                                    <Text>{`Test ${i}:`}</Text>
+                                    <Text>{`${grade}%`}</Text>
+                                </Row>
+
                             </li>
                         ))
                     }
                 </ul>
             }
+
+            {
+                tags.length > 0 &&
+                <ul>
+                    {
+                        tags.map(tag => <li key={tag}>{tag}</li>)
+                    }
+                </ul>
+            }
+            <form onSubmit={addTag}>
+                <TagInput type="text" onChange={e => setTagInput(e.target.value)} value={tagInput} />
+            </form>
         </Card>
     )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import ListContents from './components/ListContents'
+import StudentsList from './components/StudentsList'
 import SearchInput from './components/SearchInput'
 
 
@@ -34,6 +34,7 @@ const App = () => {
 					return {
 						...student,
 						average: grades.reduce( (a,b) => parseInt(a)+parseInt(b) , 0 ) / grades.length,
+						tags: []
 					}
 				})
 			)
@@ -45,7 +46,7 @@ const App = () => {
 		<>
 			<SearchInput search={search} setSearch={setSearch} />
 			<CardsList>
-				<ListContents loading={loading} filteredStudents={filteredStudents} />
+				<StudentsList loading={loading} filteredStudents={filteredStudents} updateStudents={updateStudents} />
 			</CardsList>
 		</>
 	)

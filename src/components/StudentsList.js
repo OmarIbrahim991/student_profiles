@@ -1,7 +1,7 @@
 import Student from './Student'
 
 
-const ListContents = ({ loading, filteredStudents }) => {
+const StudentsList = ({ loading, filteredStudents, updateStudents }) => {
     if (loading) {
         return <h1>Loading...</h1>
     }
@@ -12,9 +12,9 @@ const ListContents = ({ loading, filteredStudents }) => {
 
     return (
         <>
-            {filteredStudents.map(student => <Student key={student.email} {...student} />)}
+            {filteredStudents.map(student => <Student key={student.email} updateStudents={updateStudents} {...student} />)}
         </>
     )
 }
 
-export default ListContents
+export default StudentsList
