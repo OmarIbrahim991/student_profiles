@@ -31,7 +31,7 @@ const GradesList = ({ grades }) => (
                 grades.map((grade, i) => (
                     <li key={i}>
                         <Row>
-                            <Text>{`Test ${i}:`}</Text>
+                            <Text>{`Test ${i+1}:`}</Text>
                             <Text>{`${grade}%`}</Text>
                         </Row>
 

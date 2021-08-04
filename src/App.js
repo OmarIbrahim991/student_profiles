@@ -34,21 +34,19 @@ const App = () => {
 			return
 		}
 
-		let result = students
-		if (searchNames.length > 0) {
-			result = result.filter( ({ firstName, lastName }) => (firstName+ " " +lastName).toLowerCase().includes(searchNames) )
-		}
-		if (searchTags.length > 0) {
-			result = result.filter( ({ tags }) => (tags.length > 0 && tags.some(tag => tag.includes(searchTags))) )
-		}
+		const filtered = students.filter(({ firstName, lastName, tags }) => {
+			const nameMatch = searchNames.length === 0 || (firstName+ " " +lastName).toLowerCase().includes(searchNames)
+			const tagMatch = searchTags.length === 0 || (tags.length > 0 && tags.some(tag => tag.includes(searchTags)))
+			return nameMatch && tagMatch
+		})
 
-		updateFilteredStudents(result)
+		updateFilteredStudents(filtered)
 	}, [students, searchNames, searchTags])
 
 	return (
 		<>
-			<SearchInput search={searchNames} setSearch={setSearchNames} placeholderText="Search profiles by names" />
-			<SearchInput search={searchTags} setSearch={setSearchTags} placeholderText="Search profiles by tags" />
+			<SearchInput search={searchNames} setSearch={setSearchNames} placeholderText="Search by name" />
+			<SearchInput search={searchTags} setSearch={setSearchTags} placeholderText="Search by tag" />
 			<StudentsList loading={loading} filteredStudents={filteredStudents} updateStudents={updateStudents} />
 		</>
 	)
