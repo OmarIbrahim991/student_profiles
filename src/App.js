@@ -1,19 +1,7 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import StudentsList from './components/StudentsList'
 import SearchInput from './components/SearchInput'
 
-
-const CardsList = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: auto;
-	padding: 1em;
-	max-width: 800px;
-	color: #570475;
-	background-color: #eef;
-`
 
 const App = () => {
 	const [students, updateStudents] = useState([])
@@ -45,9 +33,7 @@ const App = () => {
 	return (
 		<>
 			<SearchInput search={search} setSearch={setSearch} />
-			<CardsList>
-				<StudentsList loading={loading} filteredStudents={filteredStudents} updateStudents={updateStudents} />
-			</CardsList>
+			<StudentsList loading={loading} filteredStudents={filteredStudents} updateStudents={updateStudents} />
 		</>
 	)
 }

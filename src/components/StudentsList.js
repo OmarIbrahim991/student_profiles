@@ -1,5 +1,17 @@
+import styled from 'styled-components'
 import Student from './Student'
 
+
+const CardsList = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: auto;
+	padding: 1em;
+	max-width: 800px;
+	color: #570475;
+	background-color: #eef;
+`
 
 const StudentsList = ({ loading, filteredStudents, updateStudents }) => {
     if (loading) {
@@ -11,9 +23,9 @@ const StudentsList = ({ loading, filteredStudents, updateStudents }) => {
     }
 
     return (
-        <>
+        <CardsList>
             {filteredStudents.map(student => <Student key={student.email} updateStudents={updateStudents} {...student} />)}
-        </>
+        </CardsList>
     )
 }
 

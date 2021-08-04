@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import GradesList from './GradesList'
+import TagsList from './TagsList'
 
 
 const Card = styled.div`
@@ -57,6 +59,17 @@ const Text = styled.p`
 `
 
 const TagInput = styled.input`
+    border: none;
+    border-bottom: 1px solid #335;
+    opacity: 0.75;
+    color: #223;
+    background-color: lavender;
+    &:focus {
+        border: none;
+        outline: none;
+        border-bottom: 1px solid #223;
+        opacity: 1;
+    }
 `
 
 const Student = ({ firstName, lastName, email, company, skill, average, pic, grades, tags, updateStudents }) => {
@@ -94,34 +107,12 @@ const Student = ({ firstName, lastName, email, company, skill, average, pic, gra
                 </CardDetails>
             </Row>
 
-            {
-                extended &&
-                <ul style={{ listStyleType: "none", width: "30%", margin: "1em auto 0.25em", padding: "0 1em" }}>
-                    <h3>Grades</h3>
-                    {
-                        grades.map((grade, i) => (
-                            <li key={i}>
-                                <Row>
-                                    <Text>{`Test ${i}:`}</Text>
-                                    <Text>{`${grade}%`}</Text>
-                                </Row>
+            {extended && <GradesList grades={grades} />}
 
-                            </li>
-                        ))
-                    }
-                </ul>
-            }
+            { tags.length > 0 && <TagsList tags={tags} />}
 
-            {
-                tags.length > 0 &&
-                <ul>
-                    {
-                        tags.map(tag => <li key={tag}>{tag}</li>)
-                    }
-                </ul>
-            }
             <form onSubmit={addTag}>
-                <TagInput type="text" onChange={e => setTagInput(e.target.value)} value={tagInput} />
+                <TagInput type="text" onChange={e => setTagInput(e.target.value)} value={tagInput} placeholder="Add a tag" />
             </form>
         </Card>
     )
