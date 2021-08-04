@@ -9,19 +9,19 @@ const Input = styled.input`
     border-radius: 0.5em;
     display: block;
     outline: none;
-    margin: 0.25em auto 1em;
+    margin: 0.25em auto;
     &:focus {
         border-color: #0258ea;
     }
 `
 
-const SearchInput = ({ search, setSearch }) => {
+const SearchInput = ({ search, setSearch, placeholderText="Search" }) => {
     return (
         <Input
             type="search"
             onInput={e => setSearch(e.target.value)}
             value={search}
-            placeholder="&#x1F50D; Search profiles by first & last names."
+            placeholder={placeholderText}
         />
     )
 }
