@@ -35,8 +35,8 @@ const App = () => {
 		}
 
 		const filtered = students.filter(({ firstName, lastName, tags }) => {
-			const nameMatch = searchNames.length === 0 || (firstName+ " " +lastName).toLowerCase().includes(searchNames)
-			const tagMatch = searchTags.length === 0 || (tags.length > 0 && tags.some(tag => tag.includes(searchTags)))
+			const nameMatch = searchNames.length === 0 || (firstName+ " " +lastName).toLowerCase().includes(searchNames.toLowerCase())
+			const tagMatch = searchTags.length === 0 || (tags.length > 0 && tags.some(tag => tag.toLowerCase().includes(searchTags.toLowerCase())))
 			return nameMatch && tagMatch
 		})
 
